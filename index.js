@@ -3,7 +3,7 @@ let keys = document.querySelectorAll("button.keys");
 let backspace = document.getElementById("Backspace");
 let guess1 = document.getElementById("guessTable");
 let answer = null;
-let attempt = "";
+// let attempt = "";
 let i = 1,
   j = 1;
 
@@ -14,7 +14,7 @@ keys.forEach((key) => {
     } else {
       console.log(keys.innerText);
       guess1.rows[i - 1].cells.item(j - 1).innerHTML = key.innerHTML;
-      attempt += key.innerHTML;
+      // attempt += key.innerHTML;
       j++;
     }
   });
@@ -40,11 +40,16 @@ enter.addEventListener("click", () => {
     //   }
     // }
     //#endregion
+    attempt =
+      guess1.rows[i - 1].cells.item(0).innerHTML +
+      guess1.rows[i - 1].cells.item(1).innerHTML +
+      guess1.rows[i - 1].cells.item(2).innerHTML +
+      guess1.rows[i - 1].cells.item(3).innerHTML +
+      guess1.rows[i - 1].cells.item(4).innerHTML;
     axios
       .get("http://127.0.0.1:8000/" + attempt)
       .then((response) => {
         answer = response.data;
-        attempt = "";
         for (let x = 0; x < 5; x++) {
           if (answer[x] == "g") {
             guess1.rows[i - 1].cells.item(x).classList.add("bg-green");
@@ -65,7 +70,7 @@ enter.addEventListener("click", () => {
 
 backspace.addEventListener("click", () => {
   if (j > 1) {
-    guess1.rows[i - 1].cells.item(j - 1).innerText = "";
+    guess1.rows[i - 1].cells.item(j - 2).innerText = "";
     j--;
   }
 });
